@@ -1,0 +1,584 @@
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <div class="mx-auto max-w-5xl">
+
+    <!-- Loading -->
+    @if (loading) {
+
+    <div class="flex min-h-60 items-center justify-center">
+
+      <div class="flex items-center gap-3 text-gray-500">
+
+        <div class="h-5 w-5 animate-spin rounded-full
+                   border-2 border-gray-300
+                   border-t-blue-600"></div>
+
+        <span>Loading team...</span>
+
+      </div>
+
+    </div>
+
+    }
+
+
+    <!-- Error -->
+    @if (!loading && errorMessage) {
+
+    <div class="mb-6 rounded-xl border border-red-200
+               bg-red-50 p-5 text-sm text-red-700">
+      {{ errorMessage }}
+    </div>
+
+    }
+
+
+    <!-- Team -->
+    @if (!loading && !errorMessage && team) {
+      @if (successMessage) {
+
+  <div
+    class="mb-6 flex items-center gap-3 rounded-xl
+           border border-green-200 bg-green-50
+           p-4 text-sm text-green-700"
+  >
+
+    <div
+      class="flex h-7 w-7 shrink-0 items-center
+             justify-center rounded-full bg-green-100"
+    >
+      ✓
+    </div>
+
+    <p class="font-medium">
+      {{ successMessage }}
+    </p>
+
+  </div>
+
+}
+
+    <!-- ========================= -->
+    <!-- Team Header -->
+    <!-- ========================= -->
+
+   <div
+  class="flex flex-col gap-4
+         sm:flex-row sm:items-start
+         sm:justify-between"
+>
+
+  <!-- Team Information -->
+  <div>
+
+    <div class="flex flex-wrap items-center gap-3">
+
+      <h1
+        class="text-2xl font-bold text-gray-900
+               sm:text-3xl"
+      >
+        {{ team.name }}
+      </h1>
+
+      <span
+        class="rounded-full bg-blue-50
+               px-3 py-1 text-xs font-medium
+               text-blue-700"
+      >
+        #{{ team.id }}
+      </span>
+
+    </div>
+
+    <p class="mt-2 text-sm text-gray-500">
+      {{ team.description || 'No description available.' }}
+    </p>
+
+  </div>
+
+
+  <!-- Edit Button -->
+  <a
+    [routerLink]="[
+      '/teams',
+      team.id,
+      'edit'
+    ]"
+    class="inline-flex items-center
+           justify-center gap-2
+           rounded-lg bg-blue-600
+           px-4 py-2.5
+           text-sm font-medium
+           text-white transition
+           hover:bg-blue-700"
+  >
+
+    <span>✏️</span>
+
+    Edit Team
+
+  </a>
+
+</div>
+
+
+    <!-- ========================= -->
+    <!-- Project -->
+    <!-- ========================= -->
+
+    <div class="mb-6 rounded-xl border border-gray-200
+               bg-white p-6 shadow-sm">
+
+      <div class="mb-5">
+
+        <h2 class="text-lg font-semibold text-gray-900">
+          Project
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-500">
+          Project assigned to this team.
+        </p>
+
+      </div>
+
+
+      @if (team.project) {
+
+      <div class="flex items-center gap-4 rounded-lg
+                   bg-gray-50 p-4">
+
+        <!-- Project Icon -->
+        <div class="flex h-12 w-12 shrink-0
+                     items-center justify-center
+                     rounded-lg bg-purple-100
+                     text-xl">
+          📁
+        </div>
+
+
+        <!-- Project Info -->
+        <div class="min-w-0">
+
+          <h3 class="truncate font-medium text-gray-900">
+            {{ team.project.name }}
+          </h3>
+
+          <p class="mt-1 text-sm text-gray-500">
+            {{ team.project.description || 'No description available.' }}
+          </p>
+
+        </div>
+
+      </div>
+
+      } @else {
+
+      <p class="text-sm text-gray-500">
+        No project assigned.
+      </p>
+
+      }
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Team Members -->
+    <!-- ========================= -->
+
+    <div class="mb-6 rounded-xl border border-gray-200
+               bg-white p-6 shadow-sm">
+
+      <!-- Header -->
+      <div class="mb-5 flex flex-col gap-2
+                 sm:flex-row sm:items-center
+                 sm:justify-between">
+
+        <div>
+
+          <h2 class="text-lg font-semibold text-gray-900">
+            Team Members
+          </h2>
+
+          <p class="mt-1 text-sm text-gray-500">
+            Users currently assigned to this team.
+          </p>
+
+        </div>
+
+
+        <!-- Member Count -->
+        <span class="w-fit rounded-full bg-blue-50
+                   px-3 py-1 text-xs font-medium
+                   text-blue-700">
+          {{ team.members?.length || 0 }} members
+        </span>
+
+      </div>
+
+
+      <!-- Current Members -->
+      @if (team.members?.length) {
+
+      <div class="space-y-3">
+
+        @for (member of team.members; track member.id) {
+
+        <div class="flex flex-col gap-4 rounded-lg
+                       border border-gray-100
+                       bg-gray-50 p-4
+                       sm:flex-row sm:items-center
+                       sm:justify-between">
+
+          <!-- User Info -->
+          <div class="flex min-w-0 items-center gap-3">
+
+            <!-- Avatar -->
+            <div class="flex h-10 w-10 shrink-0
+                           items-center justify-center
+                           overflow-hidden rounded-full
+                           bg-blue-100
+                           text-sm font-semibold
+                           text-blue-700">
+
+              @if (member.user.profileImage) {
+
+              <img [src]="member.user.profileImage" [alt]="
+                          member.user.firstName +
+                          ' ' +
+                          member.user.lastName
+                        " class="h-full w-full object-cover" />
+
+              } @else {
+
+              {{ member.user.firstName.charAt(0) }}
+
+              }
+
+            </div>
+
+
+            <!-- Name + Email -->
+            <div class="min-w-0">
+
+              <h3 class="truncate text-sm font-semibold
+                             text-gray-900">
+                {{ member.user.firstName }}
+                {{ member.user.lastName }}
+              </h3>
+
+              <p class="truncate text-xs text-gray-500">
+                {{ member.user.email }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Remove Button -->
+          <button
+  type="button"
+  (click)="openRemoveMemberModal(member)"
+  [disabled]="removingMemberId === member.userId"
+  class="rounded-lg border border-red-200
+         bg-white px-4 py-2 text-sm font-medium
+         text-red-600 transition
+         hover:bg-red-50
+         disabled:cursor-not-allowed
+         disabled:opacity-50"
+>
+  Remove
+</button>
+
+        </div>
+
+        }
+
+      </div>
+
+      } @else {
+
+      <!-- Empty Members -->
+      <div class="rounded-lg border border-dashed
+                   border-gray-300 bg-gray-50
+                   p-8 text-center">
+
+        <div class="text-3xl">
+          👥
+        </div>
+
+        <p class="mt-2 text-sm font-medium
+                     text-gray-700">
+          No members yet
+        </p>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Add users to this team using the form below.
+        </p>
+
+      </div>
+
+      }
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Add Team Member -->
+    <!-- ========================= -->
+
+    <div class="mb-6 rounded-xl border border-gray-200
+               bg-white p-6 shadow-sm">
+
+      <!-- Header -->
+      <div class="mb-5">
+
+        <h2 class="text-lg font-semibold text-gray-900">
+          Add Team Member
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-500">
+          Select a user to add to this team.
+        </p>
+
+      </div>
+
+
+      <!-- Form -->
+      <div class="flex flex-col gap-3
+                 sm:flex-row sm:items-end">
+
+        <!-- Select -->
+        <div class="flex-1">
+
+          <label for="user" class="mb-2 block text-sm
+                     font-medium text-gray-700">
+            Select User
+          </label>
+
+
+          <select id="user" [(ngModel)]="selectedUserId" [disabled]="
+                loadingUsers ||
+                addingMember
+              " class="w-full rounded-lg
+                     border border-gray-300
+                     bg-white px-4 py-3
+                     text-sm text-gray-700
+                     outline-none transition
+                     focus:border-blue-500
+                     focus:ring-2
+                     focus:ring-blue-200
+                     disabled:cursor-not-allowed
+                     disabled:bg-gray-100">
+
+            <!-- Default -->
+            <option [ngValue]="null">
+              Select a user
+            </option>
+
+
+            <!-- Users -->
+            @for (user of users; track user.id) {
+
+            @if (
+            !team.members?.some(
+            member => member.userId === user.id
+            )
+            ) {
+
+            <option [ngValue]="user.id">
+              {{ user.firstName }}
+              {{ user.lastName }}
+              — {{ user.email }}
+            </option>
+
+            }
+
+            }
+
+          </select>
+
+        </div>
+
+
+        <!-- Add Button -->
+        <button type="button" (click)="addMember()" [disabled]="
+              !selectedUserId ||
+              loadingUsers ||
+              addingMember
+            " class="rounded-lg bg-blue-600
+                   px-5 py-3
+                   text-sm font-medium
+                   text-white transition
+                   hover:bg-blue-700
+                   disabled:cursor-not-allowed
+                   disabled:opacity-50">
+
+          @if (addingMember) {
+
+          <span class="flex items-center gap-2">
+
+            <span class="h-4 w-4 animate-spin
+                         rounded-full border-2
+                         border-blue-200
+                         border-t-white"></span>
+
+            Adding...
+
+          </span>
+
+          } @else {
+
+          Add Memberّ
+
+          }
+
+        </button>
+
+      </div>
+
+
+      <!-- Loading Users -->
+      @if (loadingUsers) {
+
+      <div class="mt-3 flex items-center gap-2
+                   text-xs text-gray-500">
+
+        <span class="h-3 w-3 animate-spin
+                     rounded-full border-2
+                     border-gray-300
+                     border-t-blue-600"></span>
+
+        Loading users...
+
+      </div>
+
+      }
+
+    </div>
+
+    }
+
+  </div>
+
+
+</div>
+
+<!-- Remove Member Modal -->
+
+@if (showRemoveMemberModal && memberToRemove) {
+
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center
+           bg-black/50 p-4"
+  >
+
+    <div
+      class="w-full max-w-md rounded-2xl bg-white
+             p-6 shadow-2xl"
+    >
+
+      <!-- Icon -->
+      <div
+        class="mx-auto flex h-14 w-14 items-center
+               justify-center rounded-full bg-red-100
+               text-2xl"
+      >
+        👤
+      </div>
+
+      <!-- Content -->
+      <div class="mt-4 text-center">
+
+        <h2
+          class="text-xl font-bold text-gray-900"
+        >
+          Remove Team Member?
+        </h2>
+
+        <p
+          class="mt-2 text-sm leading-6 text-gray-500"
+        >
+          Are you sure you want to remove
+          <span class="font-semibold text-gray-800">
+            {{ memberToRemove.user.firstName }}
+            {{ memberToRemove.user.lastName }}
+          </span>
+          from this team?
+        </p>
+
+      </div>
+
+      <!-- Error -->
+      @if (errorMessage) {
+
+        <div
+          class="mt-4 rounded-lg border border-red-200
+                 bg-red-50 p-3 text-sm text-red-700"
+        >
+          {{ errorMessage }}
+        </div>
+
+      }
+
+      <!-- Actions -->
+      <div
+        class="mt-6 flex flex-col-reverse gap-3
+               sm:flex-row sm:justify-end"
+      >
+
+        <!-- Cancel -->
+        <button
+          type="button"
+          (click)="closeRemoveMemberModal()"
+          [disabled]="removingMemberId !== null"
+          class="rounded-lg border border-gray-300
+                 bg-white px-5 py-2.5 text-sm font-medium
+                 text-gray-700 transition
+                 hover:bg-gray-50
+                 disabled:cursor-not-allowed
+                 disabled:opacity-50"
+        >
+          Cancel
+        </button>
+
+        <!-- Remove -->
+        <button
+          type="button"
+          (click)="removeMember()"
+          [disabled]="removingMemberId !== null"
+          class="inline-flex items-center justify-center
+                 gap-2 rounded-lg bg-red-600
+                 px-5 py-2.5 text-sm font-medium
+                 text-white transition
+                 hover:bg-red-700
+                 disabled:cursor-not-allowed
+                 disabled:opacity-60"
+        >
+
+          @if (removingMemberId !== null) {
+
+            <span
+              class="h-4 w-4 animate-spin rounded-full
+                     border-2 border-red-200
+                     border-t-white"
+            ></span>
+
+            Removing...
+
+          } @else {
+
+            Remove Member
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

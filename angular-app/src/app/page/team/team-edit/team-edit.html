@@ -1,0 +1,353 @@
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <div class="mx-auto max-w-3xl">
+
+    <!-- Loading -->
+    @if (loading) {
+
+      <div
+        class="flex min-h-60 items-center justify-center"
+      >
+
+        <div
+          class="flex items-center gap-3 text-gray-500"
+        >
+
+          <div
+            class="h-5 w-5 animate-spin
+                   rounded-full border-2
+                   border-gray-300
+                   border-t-blue-600"
+          ></div>
+
+          <span>
+            Loading team...
+          </span>
+
+        </div>
+
+      </div>
+
+    }
+
+
+    <!-- Error -->
+    @if (!loading && errorMessage) {
+
+      <div
+        class="mb-5 rounded-xl
+               border border-red-200
+               bg-red-50 p-4
+               text-sm text-red-700"
+      >
+
+        {{ errorMessage }}
+
+      </div>
+
+    }
+
+
+    <!-- Edit Team -->
+    @if (!loading && team) {
+
+      <div
+        class="rounded-xl border
+               border-gray-200
+               bg-white shadow-sm"
+      >
+
+        <!-- Header -->
+        <div
+          class="border-b border-gray-200
+                 px-6 py-5"
+        >
+
+          <div
+            class="flex flex-col gap-2
+                   sm:flex-row
+                   sm:items-center
+                   sm:justify-between"
+          >
+
+            <div>
+
+              <h1
+                class="text-xl font-bold
+                       text-gray-900 sm:text-2xl"
+              >
+                Edit Team
+              </h1>
+
+              <p
+                class="mt-1 text-sm
+                       text-gray-500"
+              >
+                Update the team information
+                below.
+              </p>
+
+            </div>
+
+
+            <!-- Team ID -->
+            <span
+              class="w-fit rounded-full
+                     bg-blue-50 px-3 py-1
+                     text-xs font-medium
+                     text-blue-700"
+            >
+              Team #{{ team.id }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Form -->
+        <form
+          (ngSubmit)="updateTeam()"
+          class="space-y-6 p-6"
+        >
+
+          <!-- Team Name -->
+          <div>
+
+            <label
+              for="name"
+              class="mb-2 block
+                     text-sm font-medium
+                     text-gray-700"
+            >
+              Team Name
+            </label>
+
+            <input
+              id="name"
+              name="name"
+              type="text"
+              [(ngModel)]="form.name"
+              placeholder="Enter team name"
+              [disabled]="saving"
+              class="w-full rounded-lg
+                     border border-gray-300
+                     bg-white px-4 py-3
+                     text-sm text-gray-900
+                     outline-none transition
+                     placeholder:text-gray-400
+                     focus:border-blue-500
+                     focus:ring-2
+                     focus:ring-blue-200
+                     disabled:cursor-not-allowed
+                     disabled:bg-gray-100"
+            />
+
+          </div>
+
+
+          <!-- Description -->
+          <div>
+
+            <label
+              for="description"
+              class="mb-2 block
+                     text-sm font-medium
+                     text-gray-700"
+            >
+              Description
+            </label>
+
+            <textarea
+              id="description"
+              name="description"
+              rows="5"
+              [(ngModel)]="form.description"
+              placeholder="Enter team description"
+              [disabled]="saving"
+              class="w-full resize-none
+                     rounded-lg
+                     border border-gray-300
+                     bg-white px-4 py-3
+                     text-sm text-gray-900
+                     outline-none transition
+                     placeholder:text-gray-400
+                     focus:border-blue-500
+                     focus:ring-2
+                     focus:ring-blue-200
+                     disabled:cursor-not-allowed
+                     disabled:bg-gray-100"
+            ></textarea>
+
+          </div>
+
+
+          <!-- Project -->
+          <div>
+
+            <label
+              for="project"
+              class="mb-2 block
+                     text-sm font-medium
+                     text-gray-700"
+            >
+              Project
+            </label>
+
+            <select
+              id="project"
+              name="projectId"
+              [(ngModel)]="form.projectId"
+              [disabled]="
+                loadingProjects ||
+                saving
+              "
+              class="w-full rounded-lg
+                     border border-gray-300
+                     bg-white px-4 py-3
+                     text-sm text-gray-700
+                     outline-none transition
+                     focus:border-blue-500
+                     focus:ring-2
+                     focus:ring-blue-200
+                     disabled:cursor-not-allowed
+                     disabled:bg-gray-100"
+            >
+
+              <option [ngValue]="0">
+                Select a project
+              </option>
+
+
+              @for (
+                project of projects;
+                track project.id
+              ) {
+
+                <option
+                  [ngValue]="project.id"
+                >
+                  {{ project.name }}
+                </option>
+
+              }
+
+            </select>
+
+
+            @if (loadingProjects) {
+
+              <p
+                class="mt-2 text-xs
+                       text-gray-500"
+              >
+                Loading projects...
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- Success -->
+          @if (successMessage) {
+
+            <div
+              class="rounded-lg
+                     border border-green-200
+                     bg-green-50 p-4
+                     text-sm text-green-700"
+            >
+
+              {{ successMessage }}
+
+            </div>
+
+          }
+
+
+          <!-- Buttons -->
+          <div
+            class="flex flex-col-reverse
+                   gap-3 border-t
+                   border-gray-200
+                   pt-6 sm:flex-row
+                   sm:justify-end"
+          >
+
+            <!-- Cancel -->
+            <button
+              type="button"
+              (click)="cancel()"
+              [disabled]="saving"
+              class="rounded-lg
+                     border border-gray-300
+                     bg-white px-5 py-3
+                     text-sm font-medium
+                     text-gray-700
+                     transition
+                     hover:bg-gray-50
+                     disabled:cursor-not-allowed
+                     disabled:opacity-50"
+            >
+              Cancel
+            </button>
+
+
+            <!-- Update -->
+            <button
+              type="submit"
+              [disabled]="
+                saving ||
+                loadingProjects ||
+                !form.name?.trim() ||
+                !form.projectId
+              "
+              class="rounded-lg
+                     bg-blue-600 px-5 py-3
+                     text-sm font-medium
+                     text-white
+                     transition
+                     hover:bg-blue-700
+                     disabled:cursor-not-allowed
+                     disabled:opacity-50"
+            >
+
+              @if (saving) {
+
+                <span
+                  class="flex items-center
+                         justify-center gap-2"
+                >
+
+                  <span
+                    class="h-4 w-4 animate-spin
+                           rounded-full border-2
+                           border-blue-200
+                           border-t-white"
+                  ></span>
+
+                  Updating...
+
+                </span>
+
+              } @else {
+
+                Update Team
+
+              }
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    }
+
+  </div>
+  
+
+</div>

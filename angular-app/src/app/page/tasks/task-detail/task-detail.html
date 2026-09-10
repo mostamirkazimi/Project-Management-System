@@ -1,0 +1,586 @@
+
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <!-- =========================
+       TOP BAR
+  ========================== -->
+
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+    <div>
+      <button
+        type="button"
+        (click)="goBack()"
+        class="mb-3 inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-gray-900"
+      >
+        ← Back to Tasks
+      </button>
+
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+        Task Details
+      </h1>
+
+      <p class="mt-1 text-sm text-gray-500">
+        View complete information about this task.
+      </p>
+    </div>
+
+    @if (task) {
+
+      <div class="flex gap-2">
+<button
+  type="button"
+  (click)="editTask()"
+  class="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
+>
+  Edit
+</button>
+
+<button
+  type="button"
+  (click)="openDeleteModal()"
+  [disabled]="deleting"
+  class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+>
+  Delete
+</button>
+
+
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <!-- =========================
+       LOADING
+  ========================== -->
+
+  @if (loading) {
+
+    <div
+      class="flex min-h-72 items-center justify-center rounded-xl border border-gray-200 bg-white shadow-sm"
+    >
+
+      <div class="text-center">
+
+        <div
+          class="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"
+        ></div>
+
+        <p class="mt-3 text-sm text-gray-500">
+          Loading task...
+        </p>
+
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- =========================
+       ERROR
+  ========================== -->
+
+  @if (!loading && errorMessage) {
+
+    <div
+      class="rounded-xl border border-red-200 bg-red-50 p-6 text-center"
+    >
+
+      <h2 class="text-lg font-semibold text-red-800">
+        Unable to load task
+      </h2>
+
+      <p class="mt-2 text-sm text-red-600">
+        {{ errorMessage }}
+      </p>
+
+      <button
+        type="button"
+        (click)="goBack()"
+        class="mt-5 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+      >
+        Back to Tasks
+      </button>
+
+    </div>
+
+  }
+
+
+  <!-- =========================
+       TASK CONTENT
+  ========================== -->
+
+  @if (!loading && task) {
+
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+
+      <!-- =========================
+           MAIN CONTENT
+      ========================== -->
+
+      <div class="space-y-6 xl:col-span-2">
+
+        <!-- Task Header -->
+
+        <div
+          class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+        >
+
+          <div class="border-b border-gray-100 p-5 sm:p-6">
+
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+
+              <div class="min-w-0">
+
+                <div class="mb-3 flex flex-wrap gap-2">
+
+                  <!-- Status -->
+
+                  <span
+                    class="rounded-full px-3 py-1 text-xs font-semibold"
+                    [class.bg-gray-100]="task.status === 'TODO'"
+                    [class.text-gray-700]="task.status === 'TODO'"
+                    [class.bg-blue-100]="task.status === 'IN_PROGRESS'"
+                    [class.text-blue-700]="task.status === 'IN_PROGRESS'"
+                    [class.bg-yellow-100]="task.status === 'REVIEW'"
+                    [class.text-yellow-700]="task.status === 'REVIEW'"
+                    [class.bg-green-100]="task.status === 'DONE'"
+                    [class.text-green-700]="task.status === 'DONE'"
+                  >
+                    {{ task.status.replace('_', ' ') }}
+                  </span>
+
+
+                  <!-- Priority -->
+
+                  <span
+                    class="rounded-full px-3 py-1 text-xs font-semibold"
+                    [class.bg-gray-100]="task.priority === 'LOW'"
+                    [class.text-gray-700]="task.priority === 'LOW'"
+                    [class.bg-blue-100]="task.priority === 'MEDIUM'"
+                    [class.text-blue-700]="task.priority === 'MEDIUM'"
+                    [class.bg-orange-100]="task.priority === 'HIGH'"
+                    [class.text-orange-700]="task.priority === 'HIGH'"
+                    [class.bg-red-100]="task.priority === 'URGENT'"
+                    [class.text-red-700]="task.priority === 'URGENT'"
+                  >
+                    {{ task.priority }}
+                  </span>
+
+                </div>
+
+
+                <h2 class="text-2xl font-bold text-gray-900">
+                  {{ task.title }}
+                </h2>
+
+                <p class="mt-2 text-sm text-gray-500">
+                  Task #{{ task.id }}
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Description -->
+
+          <div class="p-5 sm:p-6">
+
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500">
+              Description
+            </h3>
+
+            <p class="mt-3 whitespace-pre-line text-sm leading-7 text-gray-700">
+              {{ task.description || 'No description available.' }}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Project -->
+
+        <div
+          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6"
+        >
+
+          <div class="mb-5 flex items-center justify-between">
+
+            <h3 class="text-lg font-semibold text-gray-900">
+              Project
+            </h3>
+
+          </div>
+
+
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+
+            @if (task.project?.image) {
+
+              <img
+                [src]="'http://localhost:3000' + task.project.image"
+                [alt]="task.project.name"
+                class="h-20 w-full rounded-lg object-cover sm:h-20 sm:w-32"
+              />
+
+            } @else {
+
+              <div
+                class="flex h-20 w-full items-center justify-center rounded-lg bg-gray-100 text-sm text-gray-400 sm:w-32"
+              >
+                No Image
+              </div>
+
+            }
+
+
+            <div class="min-w-0">
+
+              <h4 class="text-lg font-semibold text-gray-900">
+                {{ task.project?.name || 'No project' }}
+              </h4>
+
+              <p class="mt-1 text-sm text-gray-500">
+                {{ task.project?.description || 'No project description.' }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           SIDEBAR
+      ========================== -->
+
+      <div class="space-y-6">
+
+        <!-- Task Information -->
+
+        <div
+          class="rounded-xl border border-gray-200 bg-white shadow-sm"
+        >
+
+          <div class="border-b border-gray-100 px-5 py-4">
+
+            <h3 class="font-semibold text-gray-900">
+              Task Information
+            </h3>
+
+          </div>
+
+
+          <div class="divide-y divide-gray-100">
+
+            <!-- Due Date -->
+
+            <div class="flex items-center justify-between gap-4 px-5 py-4">
+
+              <span class="text-sm text-gray-500">
+                Due Date
+              </span>
+
+              <span class="text-sm font-medium text-gray-900">
+                {{ task.dueDate || '-' }}
+              </span>
+
+            </div>
+
+
+            <!-- Project ID -->
+
+            <div class="flex items-center justify-between gap-4 px-5 py-4">
+
+              <span class="text-sm text-gray-500">
+                Project ID
+              </span>
+
+              <span class="text-sm font-medium text-gray-900">
+                #{{ task.projectId }}
+              </span>
+
+            </div>
+
+
+            <!-- Created -->
+
+            <div class="flex items-center justify-between gap-4 px-5 py-4">
+
+              <span class="text-sm text-gray-500">
+                Created
+              </span>
+
+              <span class="text-right text-sm font-medium text-gray-900">
+                {{ task.createdAt | date:'medium' }}
+              </span>
+
+            </div>
+
+
+            <!-- Updated -->
+
+            <div class="flex items-center justify-between gap-4 px-5 py-4">
+
+              <span class="text-sm text-gray-500">
+                Updated
+              </span>
+
+              <span class="text-right text-sm font-medium text-gray-900">
+                {{ task.updatedAt | date:'medium' }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Assigned User -->
+
+        <div
+          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+        >
+
+          <h3 class="font-semibold text-gray-900">
+            Assigned To
+          </h3>
+
+
+          @if (task.assignedTo) {
+
+            <div class="mt-4 flex items-center gap-3">
+
+              @if (task.assignedTo.profileImage) {
+
+                <img
+                  [src]="'http://localhost:3000' + task.assignedTo.profileImage"
+                  [alt]="task.assignedTo.firstName"
+                  class="h-12 w-12 rounded-full object-cover"
+                />
+
+              } @else {
+
+                <div
+                  class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 font-semibold text-blue-700"
+                >
+                  {{ task.assignedTo.firstName.charAt(0) }}
+                </div>
+
+              }
+
+
+              <div class="min-w-0">
+
+                <p class="truncate font-medium text-gray-900">
+                  {{ task.assignedTo.firstName }}
+                  {{ task.assignedTo.lastName }}
+                </p>
+
+                <p class="truncate text-sm text-gray-500">
+                  {{ task.assignedTo.email }}
+                </p>
+
+              </div>
+
+            </div>
+
+          } @else {
+
+            <p class="mt-4 text-sm text-gray-400">
+              This task is not assigned to anyone.
+            </p>
+
+          }
+
+        </div>
+
+
+        <!-- Created By -->
+
+        <div
+          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+        >
+
+          <h3 class="font-semibold text-gray-900">
+            Created By
+          </h3>
+
+
+          @if (task.createdBy) {
+
+            <div class="mt-4 flex items-center gap-3">
+
+              @if (task.createdBy.profileImage) {
+
+                <img
+                  [src]="'http://localhost:3000' + task.createdBy.profileImage"
+                  [alt]="task.createdBy.firstName"
+                  class="h-12 w-12 rounded-full object-cover"
+                />
+
+              } @else {
+
+                <div
+                  class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 font-semibold text-gray-700"
+                >
+                  {{ task.createdBy.firstName.charAt(0) }}
+                </div>
+
+              }
+
+
+              <div class="min-w-0">
+
+                <p class="truncate font-medium text-gray-900">
+                  {{ task.createdBy.firstName }}
+                  {{ task.createdBy.lastName }}
+                </p>
+
+                <p class="truncate text-sm text-gray-500">
+                  {{ task.createdBy.email }}
+                </p>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
+
+<!-- =========================
+     DELETE MODAL
+========================== -->
+
+@if (showDeleteModal && task) {
+
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+  >
+
+    <!-- Modal -->
+
+    <div
+      class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+    >
+
+      <!-- Icon -->
+
+      <div
+        class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100"
+      >
+        <svg
+          class="h-6 w-6 text-red-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v4m0 4h.01M10.29 3.86l-7.4 13A2 2 0 004.63 20h14.74a2 2 0 001.74-3.14l-7.4-13a2 2 0 00-3.42 0z"
+          />
+        </svg>
+      </div>
+
+
+      <!-- Title -->
+
+      <h2
+        class="mt-4 text-center text-lg font-semibold text-gray-900"
+      >
+        Delete Task
+      </h2>
+
+
+      <!-- Message -->
+
+      <p
+        class="mt-2 text-center text-sm leading-6 text-gray-500"
+      >
+        Are you sure you want to delete
+        <span class="font-semibold text-gray-800">
+          "{{ task.title }}"
+        </span>?
+
+        <br />
+
+        This action cannot be undone.
+      </p>
+
+
+      <!-- Actions -->
+
+      <div
+        class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"
+      >
+
+        <button
+          type="button"
+          (click)="closeDeleteModal()"
+          [disabled]="deleting"
+          class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          type="button"
+          (click)="deleteTask()"
+          [disabled]="deleting"
+          class="w-full rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        >
+
+          @if (deleting) {
+
+            <span class="inline-flex items-center gap-2">
+
+              <span
+                class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+              ></span>
+
+              Deleting...
+
+            </span>
+
+          } @else {
+
+            Delete Task
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+

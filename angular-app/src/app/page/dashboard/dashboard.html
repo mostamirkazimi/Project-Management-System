@@ -1,0 +1,949 @@
+<div class="min-h-screen bg-gray-50">
+
+  
+
+  <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+        Dashboard
+      </h1>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Overview of your projects, tasks, teams and users.
+      </p>
+    </div>
+
+
+    <!-- Loading -->
+    @if (loading) {
+
+      <div class="flex min-h-80 items-center justify-center">
+
+        <div class="flex items-center gap-3 text-gray-500">
+
+          <div
+            class="h-6 w-6 animate-spin rounded-full
+                   border-2 border-gray-300
+                   border-t-blue-600"
+          ></div>
+
+          <span class="text-sm">
+            Loading dashboard...
+          </span>
+
+        </div>
+
+      </div>
+
+    }
+
+
+    <!-- Error -->
+    @if (!loading && errorMessage) {
+
+      <div
+        class="mb-6 rounded-xl border border-yellow-200
+               bg-yellow-50 p-4 text-sm text-yellow-700"
+      >
+        {{ errorMessage }}
+      </div>
+
+    }
+
+
+    @if (!loading) {
+
+      <!-- ========================= -->
+      <!-- STAT CARDS -->
+      <!-- ========================= -->
+
+      <div
+        class="grid grid-cols-1 gap-5
+               sm:grid-cols-2
+               xl:grid-cols-4"
+      >
+
+        <!-- Projects -->
+        <div
+          class="rounded-xl border border-gray-200
+                 bg-white p-5 shadow-sm"
+        >
+
+          <div class="flex items-center justify-between">
+
+            <div>
+              <p class="text-sm font-medium text-gray-500">
+                Total Projects
+              </p>
+
+              <p class="mt-2 text-3xl font-bold text-gray-900">
+                {{ totalProjects }}
+              </p>
+            </div>
+
+            <div
+              class="flex h-12 w-12 items-center justify-center
+                     rounded-xl bg-blue-50 text-2xl"
+            >
+              📁
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-gray-400">
+            All projects in the system
+          </p>
+
+        </div>
+
+
+        <!-- Tasks -->
+        <div
+          class="rounded-xl border border-gray-200
+                 bg-white p-5 shadow-sm"
+        >
+
+          <div class="flex items-center justify-between">
+
+            <div>
+              <p class="text-sm font-medium text-gray-500">
+                Total Tasks
+              </p>
+
+              <p class="mt-2 text-3xl font-bold text-gray-900">
+                {{ totalTasks }}
+              </p>
+            </div>
+
+            <div
+              class="flex h-12 w-12 items-center justify-center
+                     rounded-xl bg-purple-50 text-2xl"
+            >
+              📝
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-gray-400">
+            All tasks in the system
+          </p>
+
+        </div>
+
+
+        <!-- Teams -->
+        <div
+          class="rounded-xl border border-gray-200
+                 bg-white p-5 shadow-sm"
+        >
+
+          <div class="flex items-center justify-between">
+
+            <div>
+              <p class="text-sm font-medium text-gray-500">
+                Total Teams
+              </p>
+
+              <p class="mt-2 text-3xl font-bold text-gray-900">
+                {{ totalTeams }}
+              </p>
+            </div>
+
+            <div
+              class="flex h-12 w-12 items-center justify-center
+                     rounded-xl bg-green-50 text-2xl"
+            >
+              👥
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-gray-400">
+            Active project teams
+          </p>
+
+        </div>
+
+
+        <!-- Users -->
+        <div
+          class="rounded-xl border border-gray-200
+                 bg-white p-5 shadow-sm"
+        >
+
+          <div class="flex items-center justify-between">
+
+            <div>
+              <p class="text-sm font-medium text-gray-500">
+                Total Users
+              </p>
+
+              <p class="mt-2 text-3xl font-bold text-gray-900">
+                {{ totalUsers }}
+              </p>
+            </div>
+
+            <div
+              class="flex h-12 w-12 items-center justify-center
+                     rounded-xl bg-orange-50 text-2xl"
+            >
+              👤
+            </div>
+
+          </div>
+
+          <p class="mt-4 text-xs text-gray-400">
+            Registered users
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- TASK OVERVIEW -->
+      <!-- ========================= -->
+
+      <div
+        class="mt-6 rounded-xl border border-gray-200
+               bg-white p-6 shadow-sm"
+      >
+
+        <div class="mb-6">
+
+          <h2 class="text-lg font-semibold text-gray-900">
+            Task Overview
+          </h2>
+
+          <p class="mt-1 text-sm text-gray-500">
+            Current status of all tasks.
+          </p>
+
+        </div>
+
+
+        <div
+          class="grid grid-cols-2 gap-4
+                 lg:grid-cols-4"
+        >
+
+          <!-- TODO -->
+          <div class="rounded-lg bg-gray-50 p-4">
+
+            <p class="text-sm font-medium text-gray-500">
+              To Do
+            </p>
+
+            <p class="mt-2 text-2xl font-bold text-gray-900">
+              {{ todoTasks }}
+            </p>
+
+          </div>
+
+
+          <!-- IN PROGRESS -->
+          <div class="rounded-lg bg-blue-50 p-4">
+
+            <p class="text-sm font-medium text-blue-600">
+              In Progress
+            </p>
+
+            <p class="mt-2 text-2xl font-bold text-blue-700">
+              {{ inProgressTasks }}
+            </p>
+
+          </div>
+
+
+          <!-- REVIEW -->
+          <div class="rounded-lg bg-yellow-50 p-4">
+
+            <p class="text-sm font-medium text-yellow-600">
+              Review
+            </p>
+
+            <p class="mt-2 text-2xl font-bold text-yellow-700">
+              {{ reviewTasks }}
+            </p>
+
+          </div>
+
+
+          <!-- DONE -->
+          <div class="rounded-lg bg-green-50 p-4">
+
+            <p class="text-sm font-medium text-green-600">
+              Done
+            </p>
+
+            <p class="mt-2 text-2xl font-bold text-green-700">
+              {{ doneTasks }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Project Overview -->
+<section class="mb-8">
+  <div class="mb-5">
+    <h2 class="text-xl font-bold text-gray-900">
+      Project Overview
+    </h2>
+
+    <p class="mt-1 text-sm text-gray-500">
+      Overview of all projects by current status
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+
+    <!-- Planning -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="mb-4 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-500">
+          Planning
+        </span>
+
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-yellow-50 text-yellow-600">
+          📋
+        </span>
+      </div>
+
+      <p class="text-3xl font-bold text-gray-900">
+        {{ planningProjects }}
+      </p>
+
+      <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-100">
+        <div
+          class="h-full rounded-full bg-yellow-400 transition-all duration-500"
+          [style.width.%]="totalProjects ? (planningProjects / totalProjects) * 100 : 0"
+        ></div>
+      </div>
+
+      <p class="mt-2 text-xs text-gray-400">
+        {{ totalProjects ? ((planningProjects / totalProjects) * 100).toFixed(0) : 0 }}%
+        of projects
+      </p>
+    </div>
+
+    <!-- In Progress -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="mb-4 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-500">
+          In Progress
+        </span>
+
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          ⚙️
+        </span>
+      </div>
+
+      <p class="text-3xl font-bold text-gray-900">
+        {{ inProgressProjects }}
+      </p>
+
+      <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-100">
+        <div
+          class="h-full rounded-full bg-blue-500 transition-all duration-500"
+          [style.width.%]="totalProjects ? (inProgressProjects / totalProjects) * 100 : 0"
+        ></div>
+      </div>
+
+      <p class="mt-2 text-xs text-gray-400">
+        {{ totalProjects ? ((inProgressProjects / totalProjects) * 100).toFixed(0) : 0 }}%
+        of projects
+      </p>
+    </div>
+
+    <!-- On Hold -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="mb-4 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-500">
+          On Hold
+        </span>
+
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 text-orange-600">
+          ⏸
+        </span>
+      </div>
+
+      <p class="text-3xl font-bold text-gray-900">
+        {{ onHoldProjects }}
+      </p>
+
+      <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-100">
+        <div
+          class="h-full rounded-full bg-orange-500 transition-all duration-500"
+          [style.width.%]="totalProjects ? (onHoldProjects / totalProjects) * 100 : 0"
+        ></div>
+      </div>
+
+      <p class="mt-2 text-xs text-gray-400">
+        {{ totalProjects ? ((onHoldProjects / totalProjects) * 100).toFixed(0) : 0 }}%
+        of projects
+      </p>
+    </div>
+
+    <!-- Completed -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="mb-4 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-500">
+          Completed
+        </span>
+
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-green-50 text-green-600">
+          ✓
+        </span>
+      </div>
+
+      <p class="text-3xl font-bold text-gray-900">
+        {{ completedProjects }}
+      </p>
+
+      <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-100">
+        <div
+          class="h-full rounded-full bg-green-500 transition-all duration-500"
+          [style.width.%]="totalProjects ? (completedProjects / totalProjects) * 100 : 0"
+        ></div>
+      </div>
+
+      <p class="mt-2 text-xs text-gray-400">
+        {{ totalProjects ? ((completedProjects / totalProjects) * 100).toFixed(0) : 0 }}%
+        of projects
+      </p>
+    </div>
+
+    <!-- Cancelled -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="mb-4 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-500">
+          Cancelled
+        </span>
+
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-600">
+          ✕
+        </span>
+      </div>
+
+      <p class="text-3xl font-bold text-gray-900">
+        {{ cancelledProjects }}
+      </p>
+
+      <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-100">
+        <div
+          class="h-full rounded-full bg-red-500 transition-all duration-500"
+          [style.width.%]="totalProjects ? (cancelledProjects / totalProjects) * 100 : 0"
+        ></div>
+      </div>
+
+      <p class="mt-2 text-xs text-gray-400">
+        {{ totalProjects ? ((cancelledProjects / totalProjects) * 100).toFixed(0) : 0 }}%
+        of projects
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Recent Projects -->
+<section class="mb-8">
+  <div class="mb-5 flex items-center justify-between">
+    <div>
+      <h2 class="text-xl font-bold text-gray-900">
+        Recent Projects
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Recently created projects
+      </p>
+    </div>
+
+    <a
+      routerLink="/projects"
+      class="text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+    >
+      View all
+    </a>
+  </div>
+
+  @if (projects.length > 0) {
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+
+      @for (project of projects.slice(0, 6); track project.id) {
+
+        <div
+          class="overflow-hidden rounded-2xl border border-gray-200
+                 bg-white shadow-sm transition duration-300
+                 hover:-translate-y-1 hover:shadow-md"
+        >
+
+          <!-- Project Image -->
+          <div class="h-40 overflow-hidden bg-gray-100">
+
+            @if (project.image) {
+              <img
+                [src]="'http://localhost:3000' + project.image"
+                [alt]="project.name"
+                class="h-full w-full object-cover transition duration-300
+                       hover:scale-105"
+              />
+            } @else {
+              <div
+                class="flex h-full items-center justify-center
+                       bg-gray-100 text-gray-400"
+              >
+                <span class="text-4xl">📁</span>
+              </div>
+            }
+
+          </div>
+
+          <!-- Project Info -->
+          <div class="p-5">
+
+            <div class="mb-3 flex items-start justify-between gap-3">
+
+              <h3
+                class="line-clamp-1 text-lg font-bold text-gray-900"
+              >
+                {{ project.name }}
+              </h3>
+
+              <span
+                class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold"
+                [class]="
+                  project.status === 'PLANNING'
+                    ? 'bg-yellow-100 text-yellow-700'
+                    : project.status === 'IN_PROGRESS'
+                    ? 'bg-blue-100 text-blue-700'
+                    : project.status === 'ON_HOLD'
+                    ? 'bg-orange-100 text-orange-700'
+                    : project.status === 'COMPLETED'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-red-100 text-red-700'
+                "
+              >
+                {{ project.status.replace('_', ' ') }}
+              </span>
+
+            </div>
+
+            <p
+              class="mb-4 line-clamp-2 min-h-10 text-sm text-gray-500"
+            >
+              {{ project.description || 'No description available.' }}
+            </p>
+
+            <div
+              class="flex items-center justify-between
+                     border-t border-gray-100 pt-4"
+            >
+
+              <div>
+                <p class="text-xs text-gray-400">
+                  Priority
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-gray-700">
+                  {{ project.priority }}
+                </p>
+              </div>
+
+              <div class="text-right">
+                <p class="text-xs text-gray-400">
+                  Due Date
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-gray-700">
+                  {{
+                    project.dueDate
+                      ? (project.dueDate | date:'MMM d, y')
+                      : 'No deadline'
+                  }}
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      }
+
+    </div>
+
+  } @else {
+
+    <div
+      class="rounded-2xl border border-dashed border-gray-300
+             bg-white p-10 text-center"
+    >
+      <div
+        class="mx-auto mb-3 flex h-12 w-12 items-center justify-center
+               rounded-xl bg-gray-100 text-2xl"
+      >
+        📁
+      </div>
+
+      <h3 class="font-semibold text-gray-900">
+        No projects yet
+      </h3>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Create your first project to see it here.
+      </p>
+
+    </div>
+
+  }
+
+</section>
+
+<!-- Upcoming Deadlines -->
+<section class="mb-8">
+
+  <div class="mb-5 flex items-center justify-between">
+    <div>
+      <h2 class="text-xl font-bold text-gray-900">
+        Upcoming Deadlines
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Tasks with the nearest deadlines
+      </p>
+    </div>
+
+    <a
+      routerLink="/tasks"
+      class="text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+    >
+      View all
+    </a>
+  </div>
+
+  @if (getUpcomingTasks().length > 0) {
+
+    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+      <div class="divide-y divide-gray-100">
+
+        @for (task of getUpcomingTasks(); track task.id) {
+
+          <div
+            class="flex flex-col gap-4 p-5 transition hover:bg-gray-50
+                   sm:flex-row sm:items-center sm:justify-between"
+          >
+
+            <!-- Task Info -->
+            <div class="min-w-0 flex-1">
+
+              <div class="flex flex-wrap items-center gap-2">
+
+                <h3 class="truncate font-semibold text-gray-900">
+                  {{ task.title }}
+                </h3>
+
+                <span
+                  class="rounded-full px-2.5 py-1 text-xs font-semibold"
+                  [class]="getTaskStatusClass(task.status)"
+                >
+                  {{ getTaskStatusLabel(task.status) }}
+                </span>
+
+              </div>
+
+              <p class="mt-1 text-sm text-gray-500">
+                {{ task.project.name }}
+              </p>
+
+              @if (task.assignedTo) {
+                <p class="mt-1 text-xs text-gray-400">
+                  Assigned to:
+                  {{ task.assignedTo.firstName }}
+                  {{ task.assignedTo.lastName }}
+                </p>
+              }
+
+            </div>
+
+            <!-- Deadline -->
+            <div class="shrink-0 sm:text-right">
+
+              <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                Due Date
+              </p>
+
+              <p
+                class="mt-1 text-sm font-bold"
+               [class]="
+  isTaskOverdue(task.dueDate)
+    ? 'text-red-600'
+    : 'text-gray-700'
+"
+
+              >
+                {{
+                  task.dueDate
+                    ? (task.dueDate | date:'MMM d, y')
+                    : 'No deadline'
+                }}
+              </p>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  } @else {
+
+    <div
+      class="rounded-2xl border border-dashed border-gray-300
+             bg-white p-10 text-center"
+    >
+
+      <div
+        class="mx-auto mb-3 flex h-12 w-12 items-center justify-center
+               rounded-xl bg-green-50 text-green-600 text-xl"
+      >
+        ✓
+      </div>
+
+      <h3 class="font-semibold text-gray-900">
+        No upcoming deadlines
+      </h3>
+
+      <p class="mt-1 text-sm text-gray-500">
+        You don't have any tasks with deadlines.
+      </p>
+
+    </div>
+
+  }
+
+</section>
+
+
+      <!-- ========================= -->
+      <!-- RECENT TASKS -->
+      <!-- ========================= -->
+
+      <div
+        class="mt-6 rounded-xl border border-gray-200
+               bg-white shadow-sm"
+      >
+
+        <div
+          class="border-b border-gray-100
+                 px-6 py-5"
+        >
+
+          <h2 class="text-lg font-semibold text-gray-900">
+            Recent Tasks
+          </h2>
+
+          <p class="mt-1 text-sm text-gray-500">
+            Latest tasks from your projects.
+          </p>
+
+        </div>
+
+
+        @if (tasks.length > 0) {
+
+          <div class="divide-y divide-gray-100">
+
+            @for (
+              task of tasks.slice(0, 5);
+              track task.id
+            ) {
+
+              <div
+                class="flex flex-col gap-3 px-6 py-4
+                       sm:flex-row sm:items-center
+                       sm:justify-between"
+              >
+
+                <div class="min-w-0">
+
+                  <h3
+                    class="truncate text-sm font-semibold
+                           text-gray-900"
+                  >
+                    {{ task.title }}
+                  </h3>
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    {{ task.project.name }}
+                  </p>
+
+                </div>
+
+
+                <span
+                  class="w-fit rounded-full px-3 py-1
+                         text-xs font-medium"
+                  [class]="getTaskStatusClass(task.status)"
+                >
+                  {{ getTaskStatusLabel(task.status) }}
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        } @else {
+
+          <div class="p-8 text-center">
+
+            <div class="text-3xl">
+              📝
+            </div>
+
+            <p class="mt-2 text-sm font-medium text-gray-700">
+              No tasks found
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+              Create a task to see it here.
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+<!-- Quick Actions -->
+<section class="mb-8">
+
+  <div class="mb-5">
+    <h2 class="text-xl font-bold text-gray-900">
+      Quick Actions
+    </h2>
+
+    <p class="mt-1 text-sm text-gray-500">
+      Quickly access the most common actions
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+    <!-- Create Project -->
+    <a
+      routerLink="/projects/create"
+      class="group rounded-2xl border border-gray-200 bg-white p-5
+             shadow-sm transition duration-300
+             hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+    >
+      <div
+        class="mb-4 flex h-12 w-12 items-center justify-center
+               rounded-xl bg-blue-50 text-2xl transition
+               group-hover:scale-110"
+      >
+        📁
+      </div>
+
+      <h3 class="font-bold text-gray-900">
+        Create Project
+      </h3>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Start a new project
+      </p>
+    </a>
+
+    <!-- Create Task -->
+    <a
+      routerLink="/tasks/create"
+      class="group rounded-2xl border border-gray-200 bg-white p-5
+             shadow-sm transition duration-300
+             hover:-translate-y-1 hover:border-green-200 hover:shadow-md"
+    >
+      <div
+        class="mb-4 flex h-12 w-12 items-center justify-center
+               rounded-xl bg-green-50 text-2xl transition
+               group-hover:scale-110"
+      >
+        ✓
+      </div>
+
+      <h3 class="font-bold text-gray-900">
+        Create Task
+      </h3>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Add a new task
+      </p>
+    </a>
+
+    <!-- Create Team -->
+    <a
+      routerLink="/teams/create"
+      class="group rounded-2xl border border-gray-200 bg-white p-5
+             shadow-sm transition duration-300
+             hover:-translate-y-1 hover:border-purple-200 hover:shadow-md"
+    >
+      <div
+        class="mb-4 flex h-12 w-12 items-center justify-center
+               rounded-xl bg-purple-50 text-2xl transition
+               group-hover:scale-110"
+      >
+        👥
+      </div>
+
+      <h3 class="font-bold text-gray-900">
+        Create Team
+      </h3>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Build a new team
+      </p>
+    </a>
+
+    <!-- View Users -->
+    <a
+      routerLink="/users"
+      class="group rounded-2xl border border-gray-200 bg-white p-5
+             shadow-sm transition duration-300
+             hover:-translate-y-1 hover:border-orange-200 hover:shadow-md"
+    >
+      <div
+        class="mb-4 flex h-12 w-12 items-center justify-center
+               rounded-xl bg-orange-50 text-2xl transition
+               group-hover:scale-110"
+      >
+        👤
+      </div>
+
+      <h3 class="font-bold text-gray-900">
+        View Users
+      </h3>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Manage system users
+      </p>
+    </a>
+
+  </div>
+
+</section>
+  </main>
+
+
+</div>

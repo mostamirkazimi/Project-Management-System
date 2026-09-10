@@ -1,0 +1,511 @@
+<main class="min-h-screen flex flex-col justify-center p-4 md:p-8">
+   <div class="w-full max-w-lg mx-auto sm:max-w-4xl">
+      <div class="mb-12">
+         <a href="#"><img src="../../../../assets/logo .jpeg" alt="logo"
+               class="w-40 inline-block dark:invert dark:brightness-100 rounded-full" />
+         </a>
+         <p class="text-slate-600 text-base mt-6 dark:text-slate-400">Create your account and get started</p>
+      </div>
+     
+     <form class="w-full" #signupForm="ngForm">
+
+       
+
+  <div class="grid sm:grid-cols-2 gap-6">
+
+    <!-- First Name -->
+    <div>
+      <label for="fname" class="mb-2 text-slate-900 font-medium text-sm inline-block">
+        First Name
+      </label>
+
+      <input
+        type="text"
+        id="fname"
+        name="fname"
+        placeholder="Mostamir"
+        required
+        minlength="2"
+        maxlength="50"
+        pattern="^[a-zA-ZÀ-ÿ\s]+$"
+        [(ngModel)]="signupObj.firstName"
+        #fname="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (fname.invalid && (fname.touched || fname.dirty)) {
+
+        @if (fname.errors?.['required']) {
+          <small class="text-red-500">
+            First name is required.
+          </small>
+        }
+
+        @else if (fname.errors?.['minlength']) {
+          <small class="text-red-500">
+            First name must be at least 2 characters.
+          </small>
+        }
+
+        @else if (fname.errors?.['maxlength']) {
+          <small class="text-red-500">
+            First name cannot exceed 50 characters.
+          </small>
+        }
+
+        @else if (fname.errors?.['pattern']) {
+          <small class="text-red-500">
+            First name can contain only letters.
+          </small>
+        }
+
+      }
+
+    </div>
+
+
+    <!-- Last Name -->
+    <div>
+      <label for="lname" class="mb-2 text-slate-900 font-medium text-sm inline-block">
+        Last Name
+      </label>
+
+      <input
+        type="text"
+        id="lname"
+        name="lname"
+        placeholder="Kazimi"
+        required
+        minlength="2"
+        maxlength="50"
+        pattern="^[a-zA-ZÀ-ÿ\s]+$"
+        [(ngModel)]="signupObj.lastName"
+        #lname="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (lname.invalid && (lname.touched || lname.dirty)) {
+
+        @if (lname.errors?.['required']) {
+          <small class="text-red-500">
+            Last name is required.
+          </small>
+        }
+
+        @else if (lname.errors?.['minlength']) {
+          <small class="text-red-500">
+            Last name must be at least 2 characters.
+          </small>
+        }
+
+        @else if (lname.errors?.['maxlength']) {
+          <small class="text-red-500">
+            Last name cannot exceed 50 characters.
+          </small>
+        }
+
+        @else if (lname.errors?.['pattern']) {
+          <small class="text-red-500">
+            Last name can contain only letters.
+          </small>
+        }
+
+      }
+
+    </div>
+
+    <!-- Picture -->
+
+    <div>
+      <label
+        for="picture"
+        class="mb-2 text-slate-900 font-medium text-sm inline-block"
+      >
+        Picture
+      </label>
+
+      <input
+        type="file"
+        id="picture"
+        name="picture"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        required
+        minlength="5"
+        maxlength="100"
+        [(ngModel)]="signupObj.profileImage"
+        #picture="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (picture.invalid && (picture.touched || picture.dirty)) {
+
+        @if (picture.errors?.['required']) {
+          <small class="text-red-500">
+            Picture is required.
+          </small>
+        }
+
+        @else if (picture.errors?.['email']) {
+          <small class="text-red-500">
+            Please enter a valid picture address.
+          </small>
+        }
+
+        @else if (picture.errors?.['minlength']) {
+          <small class="text-red-500">
+            Picture must be at least 5 characters.
+          </small>
+        }
+
+        @else if (picture.errors?.['maxlength']) {
+          <small class="text-red-500">
+            Picture cannot exceed 100 characters.
+          </small>
+        }
+
+      }
+
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label
+        for="email"
+        class="mb-2 text-slate-900 font-medium text-sm inline-block"
+      >
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Kazimi@gmail.com"
+        required
+        minlength="5"
+        maxlength="100"
+        [(ngModel)]="signupObj.email"
+        #email="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (email.invalid && (email.touched || email.dirty)) {
+
+        @if (email.errors?.['required']) {
+          <small class="text-red-500">
+            Email is required.
+          </small>
+        }
+
+        @else if (email.errors?.['email']) {
+          <small class="text-red-500">
+            Please enter a valid email address.
+          </small>
+        }
+
+        @else if (email.errors?.['minlength']) {
+          <small class="text-red-500">
+            Email must be at least 5 characters.
+          </small>
+        }
+
+        @else if (email.errors?.['maxlength']) {
+          <small class="text-red-500">
+            Email cannot exceed 100 characters.
+          </small>
+        }
+
+      }
+
+    </div>
+
+
+    <!-- Phone -->
+    <div>
+      <label
+        for="mobile"
+        class="mb-2 text-slate-900 font-medium text-sm inline-block"
+      >
+        Mobile Number
+      </label>
+
+      <input
+        type="tel"
+        id="mobile"
+        name="mobile"
+        placeholder="076-734-8796"
+        required
+        minlength="10"
+        maxlength="10"
+        pattern="^07[0-9]{8}$"
+        [(ngModel)]="signupObj.phone"
+        #mobile="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (mobile.invalid && (mobile.touched || mobile.dirty)) {
+
+        @if (mobile.errors?.['required']) {
+          <small class="text-red-500">
+            Mobile number is required.
+          </small>
+        }
+
+        @else if (mobile.errors?.['minlength']) {
+          <small class="text-red-500">
+            Mobile number must contain 10 digits.
+          </small>
+        }
+
+        @else if (mobile.errors?.['maxlength']) {
+          <small class="text-red-500">
+            Mobile number cannot exceed 10 digits.
+          </small>
+        }
+
+        @else if (mobile.errors?.['pattern']) {
+          <small class="text-red-500">
+            Please enter a valid Afghan mobile number.
+          </small>
+        }
+
+      }
+
+    </div>
+
+
+    <!-- Address -->
+    <div>
+      <label
+        for="address"
+        class="mb-2 text-slate-900 font-medium text-sm inline-block"
+      >
+        Address
+      </label>
+
+      <input
+        type="text"
+        id="address"
+        name="address"
+        placeholder="Kabul"
+        required
+        minlength="3"
+        maxlength="150"
+        [(ngModel)]="signupObj.address"
+        #address="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (address.invalid && (address.touched || address.dirty)) {
+
+        @if (address.errors?.['required']) {
+          <small class="text-red-500">
+            Address is required.
+          </small>
+        }
+
+        @else if (address.errors?.['minlength']) {
+          <small class="text-red-500">
+            Address must be at least 3 characters.
+          </small>
+        }
+
+        @else if (address.errors?.['maxlength']) {
+          <small class="text-red-500">
+            Address cannot exceed 150 characters.
+          </small>
+        }
+
+      }
+
+    </div>
+
+
+    <!-- City -->
+    <div>
+      <label
+        for="city"
+        class="mb-2 text-slate-900 font-medium text-sm inline-block"
+      >
+        City
+      </label>
+
+      <input
+        type="text"
+        id="city"
+        name="city"
+        placeholder="Kabul"
+        required
+        minlength="2"
+        maxlength="50"
+        pattern="^[a-zA-ZÀ-ÿ\s]+$"
+        [(ngModel)]="signupObj.city"
+        #city="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (city.invalid && (city.touched || city.dirty)) {
+
+        @if (city.errors?.['required']) {
+          <small class="text-red-500">
+            City is required.
+          </small>
+        }
+
+        @else if (city.errors?.['minlength']) {
+          <small class="text-red-500">
+            City must be at least 2 characters.
+          </small>
+        }
+
+        @else if (city.errors?.['maxlength']) {
+          <small class="text-red-500">
+            City cannot exceed 50 characters.
+          </small>
+        }
+
+        @else if (city.errors?.['pattern']) {
+          <small class="text-red-500">
+            City can contain only letters.
+          </small>
+        }
+
+      }
+
+    </div>
+
+
+    <!-- Password -->
+    <div>
+      <label
+        for="password"
+        class="mb-2 text-slate-900 font-medium text-sm inline-block"
+      >
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="••••••••"
+        required
+        minlength="8"
+        maxlength="50"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,50}$"
+        [(ngModel)]="signupObj.password"
+        #password="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (password.invalid && (password.touched || password.dirty)) {
+
+        @if (password.errors?.['required']) {
+          <small class="text-red-500">
+            Password is required.
+          </small>
+        }
+
+        @else if (password.errors?.['minlength']) {
+          <small class="text-red-500">
+            Password must be at least 8 characters.
+          </small>
+        }
+
+        @else if (password.errors?.['maxlength']) {
+          <small class="text-red-500">
+            Password cannot exceed 50 characters.
+          </small>
+        }
+
+        @else if (password.errors?.['pattern']) {
+          <small class="text-red-500">
+            Password must contain uppercase, lowercase, number and special character.
+          </small>
+        }
+
+      }
+
+    </div>
+
+
+    <!-- Confirm Password -->
+    <div>
+      <label
+        for="cpassword"
+        class="mb-2 text-slate-900 font-medium text-sm inline-block"
+      >
+        Confirm Password
+      </label>
+
+      <input
+        type="password"
+        id="cpassword"
+        name="cpassword"
+        placeholder="••••••••"
+        required
+        minlength="8"
+        maxlength="50"
+        [(ngModel)]="cpassword"
+        #cpasswordInput="ngModel"
+        class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 border-2 border-gray-200 hover:border-gray-500"
+      />
+
+      @if (cpasswordInput.invalid && (cpasswordInput.touched || cpasswordInput.dirty)) {
+
+        @if (cpasswordInput.errors?.['required']) {
+          <small class="text-red-500">
+            Confirm password is required.
+          </small>
+        }
+
+        @else if (cpasswordInput.errors?.['minlength']) {
+          <small class="text-red-500">
+            Confirm password must be at least 8 characters.
+          </small>
+        }
+
+        @else if (cpasswordInput.errors?.['maxlength']) {
+          <small class="text-red-500">
+            Confirm password cannot exceed 50 characters.
+          </small>
+        }
+
+      }
+
+      @if (
+        cpasswordInput.valid &&
+        cpasswordInput.touched &&
+        cpassword !== signupObj.password
+      ) {
+
+        <small class="text-red-500">
+          Passwords do not match.
+        </small>
+
+      }
+
+    </div>
+
+  </div>
+
+
+  <!-- Submit -->
+  <div class="mt-6">
+
+    <button
+      type="button"
+      (click)="signup()"
+      [disabled]="signupForm.invalid || cpassword !== signupObj.password"
+      class="py-2 px-3.5 text-sm rounded-md font-semibold cursor-pointer tracking-wide text-white border border-blue-600 bg-indigo-600 hover:bg-indigo-700 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+    >
+      Create an account
+    </button>
+
+  </div>
+
+</form>
+      
+   </div>
+</main>

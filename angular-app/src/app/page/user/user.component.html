@@ -1,0 +1,320 @@
+
+<app-header></app-header>
+
+<h1>
+  
+</h1>
+<div class="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
+
+  <div class="mx-auto max-w-4xl">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+        My Profile
+      </h1>
+
+      
+      <p class="mt-2 text-sm text-slate-500">
+        View your account information and profile details.
+      </p>
+    </div>
+
+
+    <!-- Profile Card -->
+    <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+
+      <!-- Cover -->
+      <div
+        class="h-36 bg-gradient-to-r bg-indigo-600  bg-indigo-500 sm:h-44">
+      </div>
+
+
+      <!-- Profile Content -->
+      <div class="px-6 pb-8 sm:px-10">
+
+        <!-- Avatar + Status -->
+        <div class="-mt-14 flex flex-col sm:flex-row sm:items-end sm:justify-between">
+
+          <!-- Profile Image -->
+          <div
+            class="h-28 w-28 overflow-hidden rounded-full border-8 border-white bg-indigo-100 shadow-md">
+
+            @if (user?.profileImage) {
+
+              <img
+                [src]="'http://localhost:3000' + user.profileImage"
+                [alt]="user.firstName + ' ' + user.lastName"
+                class="h-full w-full object-cover"
+              />
+
+            } @else {
+
+              <div
+                class="flex h-full w-full items-center justify-center text-3xl font-bold text-indigo-600">
+
+                {{ user?.firstName?.charAt(0) }}
+                {{ user?.lastName?.charAt(0) }}
+
+              </div>
+
+            }
+
+          </div>
+
+
+          <!-- Status -->
+          <div class="mt-4 sm:mb-2 sm:mt-0">
+
+            <span
+              class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
+
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+
+              Active Account
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Name -->
+        <div class="mt-5">
+
+          <h2 class="text-2xl font-bold text-slate-900">
+            {{ user?.firstName }} {{ user?.lastName }}
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            {{ user?.email }}
+          </p>
+
+        </div>
+
+
+        <!-- Divider -->
+        <div class="my-8 border-t border-slate-200"></div>
+
+
+        <!-- Account Information -->
+        <div>
+
+          <h3 class="mb-5 text-lg font-semibold text-slate-900">
+            Account Information
+          </h3>
+
+
+          <div class="grid gap-5 sm:grid-cols-2">
+
+
+            <!-- First Name -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                First Name
+              </p>
+
+              <p class="mt-2 text-base font-semibold text-slate-800">
+                {{ user?.firstName }}
+              </p>
+
+            </div>
+
+
+            <!-- Last Name -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Last Name
+              </p>
+
+              <p class="mt-2 text-base font-semibold text-slate-800">
+                {{ user?.lastName }}
+              </p>
+
+            </div>
+
+
+            <!-- Email -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Email Address
+              </p>
+
+              <p
+                class="mt-2 break-all text-base font-semibold text-slate-800">
+                {{ user?.email }}
+              </p>
+
+            </div>
+
+
+            <!-- Phone -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Phone
+              </p>
+
+              <p class="mt-2 text-base font-semibold text-slate-800">
+                {{ user?.phone }}
+              </p>
+
+            </div>
+
+
+            <!-- Address -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Address
+              </p>
+
+              <p class="mt-2 text-base font-semibold text-slate-800">
+                {{ user?.address }}
+              </p>
+
+            </div>
+
+
+            <!-- City -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                City
+              </p>
+
+              <p class="mt-2 text-base font-semibold text-slate-800">
+                {{ user?.city }}
+              </p>
+
+            </div>
+
+
+            <!-- Role -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Role
+              </p>
+
+              <div class="mt-2">
+
+                @if (user?.role === 'admin') {
+
+                  <span
+                    class="inline-flex rounded-full bg-purple-100 px-3 py-1 text-sm font-semibold text-purple-700">
+                    Administrator
+                  </span>
+
+                  
+                } @else {
+
+                  <span
+                    class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
+                    User
+                  </span>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <!-- User ID -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                User ID
+              </p>
+
+              <p class="mt-2 text-base font-semibold text-slate-800">
+                #{{ user?.id }}
+              </p>
+
+            </div>
+
+
+            <!-- Account Status -->
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+              <p
+                class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Account Status
+              </p>
+
+              <div class="mt-2 flex items-center gap-2">
+
+                <span
+                  class="h-2.5 w-2.5 rounded-full bg-emerald-500">
+                </span>
+
+                <span
+                  class="text-sm font-semibold text-emerald-700">
+                  Active
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Actions -->
+        <div
+          class="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
+
+          <button
+            type="button"
+            routerLink="/edit-profile"
+            class="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+
+            Edit Profile
+
+
+          </button>
+          <button
+            type="button"
+            (click)="changePassword()"
+            class="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+
+            Change Password
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<app-footer></app-footer>
+
+

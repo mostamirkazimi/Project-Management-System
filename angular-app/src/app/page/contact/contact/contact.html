@@ -1,0 +1,410 @@
+
+<div class="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+
+    <div class="mx-auto max-w-6xl">
+
+        <!-- Header -->
+        <div class="mb-10 text-center">
+
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Contact Us
+            </h1>
+
+            <p class="mx-auto mt-3 max-w-2xl text-gray-600">
+                Have a question or need help? Send us a message and
+                we'll get back to you as soon as possible.
+            </p>
+
+        </div>
+
+
+        <div class="grid gap-8 lg:grid-cols-3">
+
+            <!-- Contact Information -->
+            <div class="rounded-2xl bg-gray-900 p-8 text-white shadow-xl">
+
+                <h2 class="text-2xl font-semibold">
+                    Get in touch
+                </h2>
+
+                <p class="mt-3 text-gray-300">
+                    We'd love to hear from you. Feel free to contact us
+                    using the information below.
+                </p>
+
+
+                <!-- Email -->
+                <div class="mt-8 flex items-start gap-4">
+
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10">
+                        ✉
+                    </div>
+
+                    <div>
+                        <p class="font-medium">
+                            Email
+                        </p>
+
+                        <p class="mt-1 text-sm text-gray-300">
+                            sayedmostamirkazimi.smk@gmail.com
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Phone -->
+                <div class="mt-6 flex items-start gap-4">
+
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10">
+                        ☎
+                    </div>
+
+                    <div>
+                        <p class="font-medium">
+                            Phone
+                        </p>
+
+                        <p class="mt-1 text-sm text-gray-300">
+                            +93 76 734 8796
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Address -->
+                <div class="mt-6 flex items-start gap-4">
+
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10">
+                        📍
+                    </div>
+
+                    <div>
+                        <p class="font-medium">
+                            Address
+                        </p>
+
+                        <p class="mt-1 text-sm text-gray-300">
+                            Kabul, Afghanistan
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form -->
+            <div class="rounded-2xl bg-white p-6 shadow-xl sm:p-8 lg:col-span-2">
+
+                <form [formGroup]="contactForm" (ngSubmit)="submit()" novalidate>
+
+                    <!-- Name + Email -->
+                    <div class="grid gap-6 md:grid-cols-2">
+
+                        <!-- Name -->
+                        <div>
+
+                            <label for="name" class="mb-2 block text-sm font-medium text-gray-700">
+                                Full Name
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input id="name" type="text" formControlName="name" placeholder="Enter your full name"
+                                [class.border-red-500]="showError(name)" [class.focus:ring-red-500]="showError(name)"
+                                class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" />
+
+                            @if (showError(name)) {
+
+                            @if (name.errors?.['required']) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Full name is required.
+                            </p>
+                            }
+
+                            @if (
+                            !name.errors?.['required'] &&
+                            name.errors?.['minlength']
+                            ) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Name must be at least 2 characters.
+                            </p>
+                            }
+
+                            @if (
+                            !name.errors?.['required'] &&
+                            name.errors?.['maxlength']
+                            ) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Name cannot exceed 50 characters.
+                            </p>
+                            }
+
+                            @if (
+                            !name.errors?.['required'] &&
+                            !name.errors?.['minlength'] &&
+                            !name.errors?.['maxlength'] &&
+                            name.errors?.['pattern']
+                            ) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Name can only contain letters and spaces.
+                            </p>
+                            }
+
+                            }
+
+                        </div>
+
+
+                        <!-- Email -->
+                        <div>
+
+                            <label for="email" class="mb-2 block text-sm font-medium text-gray-700">
+                                Email
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input id="email" type="email" formControlName="email" placeholder="you@example.com"
+                                [class.border-red-500]="showError(email)"
+                                class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" />
+
+                            @if (showError(email)) {
+
+                            @if (email.errors?.['required']) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Email is required.
+                            </p>
+                            }
+
+                            @if (
+                            !email.errors?.['required'] &&
+                            email.errors?.['email']
+                            ) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Please enter a valid email address.
+                            </p>
+                            }
+
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Phone + Subject -->
+                    <div class="mt-6 grid gap-6 md:grid-cols-2">
+
+                        <!-- Phone -->
+                        <div>
+
+                            <label for="phone" class="mb-2 block text-sm font-medium text-gray-700">
+                                Phone
+                                <span class="text-gray-400">
+                                    (Optional)
+                                </span>
+                            </label>
+
+                            <input id="phone" type="tel" formControlName="phone" placeholder="+93 700 000 000"
+                                [class.border-red-500]="showError(phone)"
+                                class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" />
+
+                            @if (showError(phone)) {
+
+                            @if (phone.errors?.['pattern']) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Please enter a valid phone number.
+                            </p>
+                            }
+
+                            }
+
+                        </div>
+
+
+                        <!-- Subject -->
+                        <div>
+
+                            <label for="subject" class="mb-2 block text-sm font-medium text-gray-700">
+                                Subject
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input id="subject" type="text" formControlName="subject" placeholder="How can we help?"
+                                [class.border-red-500]="showError(subject)"
+                                class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" />
+
+                            @if (showError(subject)) {
+
+                            @if (subject.errors?.['required']) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Subject is required.
+                            </p>
+                            }
+
+                            @if (
+                            !subject.errors?.['required'] &&
+                            subject.errors?.['minlength']
+                            ) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Subject must be at least 5 characters.
+                            </p>
+                            }
+
+                            @if (
+                            !subject.errors?.['required'] &&
+                            subject.errors?.['maxlength']
+                            ) {
+                            <p class="mt-1 text-sm text-red-500">
+                                Subject cannot exceed 100 characters.
+                            </p>
+                            }
+
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Message -->
+                    <div class="mt-6">
+
+                        <div class="mb-2 flex items-center justify-between">
+
+                            <label for="message" class="block text-sm font-medium text-gray-700">
+                                Message
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <span class="text-xs text-gray-500">
+                                {{ message.value?.length || 0 }}/1000
+                            </span>
+
+                        </div>
+
+                        <textarea id="message" rows="6" formControlName="message"
+                            placeholder="Write your message here..." [class.border-red-500]="showError(message)"
+                            class="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"></textarea>
+
+
+                        @if (showError(message)) {
+
+                        @if (message.errors?.['required']) {
+                        <p class="mt-1 text-sm text-red-500">
+                            Message is required.
+                        </p>
+                        }
+
+                        @if (
+                        !message.errors?.['required'] &&
+                        message.errors?.['minlength']
+                        ) {
+                        <p class="mt-1 text-sm text-red-500">
+                            Message must be at least 20 characters.
+                        </p>
+                        }
+
+                        @if (
+                        !message.errors?.['required'] &&
+                        message.errors?.['maxlength']
+                        ) {
+                        <p class="mt-1 text-sm text-red-500">
+                            Message cannot exceed 1000 characters.
+                        </p>
+                        }
+
+                        }
+
+                    </div>
+
+
+                    <!-- Submit -->
+                    <div class="mt-8 flex justify-end">
+
+                        <button type="submit" [disabled]="isSubmitting"
+                            class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
+
+                            @if (isSubmitting) {
+
+                            <svg class="mr-2 h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                                    class="opacity-25"></circle>
+
+                                <path d="M4 12a8 8 0 018-8" stroke="currentColor" stroke-width="4"
+                                    stroke-linecap="round"></path>
+                            </svg>
+
+                            Sending...
+
+                            } @else {
+
+                            Send Message
+
+                            }
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@if (showSuccessModal) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm"
+    (click)="closeSuccessModal()"
+  >
+    <div
+      class="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Success Icon -->
+      <div
+        class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-green-100"
+      >
+        <svg
+          class="h-10 w-10 text-green-600"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+
+      <h2 class="mb-3 text-2xl font-bold text-gray-900">
+        Message Sent Successfully!
+      </h2>
+
+      <p class="mb-7 text-gray-600">
+        Thank you for contacting us. Your message has been sent successfully.
+        We will get back to you as soon as possible.
+      </p>
+
+      <button
+        type="button"
+        (click)="closeSuccessModal()"
+        class="w-full rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white
+               transition hover:bg-indigo-700 focus:outline-none focus:ring-4
+               focus:ring-indigo-200"
+      >
+        Done
+      </button>
+    </div>
+  </div>
+}
+

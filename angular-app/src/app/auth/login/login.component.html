@@ -1,0 +1,497 @@
+<div class="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-10">
+
+  <div class="w-full max-w-md">
+
+   
+
+    <!-- Logo / Header -->
+    <div class="text-center mb-8">
+
+      <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-600/30">
+        <svg
+          class="h-8 w-8 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 15v2m-6 4h12a2 2 0 002-2v-7a2 2 0 00-2-2H6a2 2 0 00-2 2v7a2 2 0 002 2zm10-11V7a4 4 0 00-8 0v3h8z">
+          </path>
+        </svg>
+      </div>
+
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+        Welcome Back
+      </h1>
+
+      <p class="mt-2 text-sm text-slate-500">
+        Sign in to your account to continue
+      </p>
+
+    </div>
+
+
+    <!-- Login Card -->
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-8">
+
+      <!-- Message -->
+     
+
+
+      <!-- Login Form -->
+      <form
+        #loginForm="ngForm"
+        (ngSubmit)="login()"
+        class="space-y-5">
+
+        <!-- Email -->
+        <div>
+
+          <label
+            for="email"
+            class="mb-2 block text-sm font-medium text-slate-700">
+            Email Address
+          </label>
+
+          <div class="relative">
+
+            <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg
+                class="h-5 w-5 text-slate-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                </path>
+              </svg>
+            </span>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="loginObj.email"
+              #email="ngModel"
+              required
+              email
+              placeholder="you@example.com"
+              class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+            />
+
+          </div>
+
+          @if (email.invalid && (email.touched || email.dirty)) {
+
+            @if (email.errors?.['required']) {
+              <p class="mt-2 text-xs font-medium text-red-500">
+                Email is required.
+              </p>
+            }
+
+            @else if (email.errors?.['email']) {
+              <p class="mt-2 text-xs font-medium text-red-500">
+                Please enter a valid email address.
+              </p>
+            }
+
+          }
+
+        </div>
+
+
+        <!-- Password -->
+        <div>
+
+  <div class="mb-2 flex items-center justify-between">
+
+    <label
+      for="password"
+      class="block text-sm font-medium text-slate-700">
+      Password
+    </label>
+
+    <a
+      routerLink="/forgot-password"
+      class="text-sm font-semibold text-blue-600 transition hover:text-blue-700">
+      Forgot password?
+    </a>
+
+  </div>
+
+  <div class="relative">
+
+    <!-- Lock Icon -->
+    <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+      <svg
+        class="h-5 w-5 text-slate-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24">
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 15v2m-6 4h12a2 2 0 002-2v-7a2 2 0 00-2-2H6a2 2 0 00-2 2v7a2 2 0 002 2zm10-11V7a4 4 0 00-8 0v3h8z">
+        </path>
+
+      </svg>
+    </span>
+
+
+    <!-- Password Input -->
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      id="password"
+      name="password"
+      [(ngModel)]="loginObj.password"
+      #password="ngModel"
+      required
+      minlength="8"
+      placeholder="Enter your password"
+      class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+    />
+
+
+    <!-- Eye Button -->
+    <button
+      type="button"
+      (click)="togglePassword()"
+      [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+      class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 transition hover:text-slate-700 focus:outline-none">
+
+      @if (showPassword) {
+
+        <!-- Eye Off -->
+        <svg
+          class="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3l18 18">
+          </path>
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10.58 10.58a2 2 0 002.84 2.84">
+          </path>
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9.88 5.09A9.94 9.94 0 0112 5c4.48 0 8.27 2.94 9.54 7a9.96 9.96 0 01-4.04 5.21">
+          </path>
+
+        </svg>
+
+      } @else {
+
+        <!-- Eye -->
+        <svg
+          class="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+          </path>
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+          </path>
+
+        </svg>
+
+      }
+
+    </button>
+
+  </div>
+
+
+  <!-- Password Validation -->
+  @if (password.invalid && (password.touched || password.dirty)) {
+
+    @if (password.errors?.['required']) {
+
+      <p class="mt-2 text-xs font-medium text-red-500">
+        Password is required.
+      </p>
+
+    }
+
+    @else if (password.errors?.['minlength']) {
+
+      <p class="mt-2 text-xs font-medium text-red-500">
+        Password must be at least 8 characters.
+      </p>
+
+    }
+
+  }
+
+</div>
+
+
+
+
+        <!-- Remember Me -->
+       
+
+
+        <!-- Login Button -->
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid"
+          class="w-full rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50">
+
+          Sign In
+
+        </button>
+
+      </form>
+
+
+      <!-- Divider -->
+      <div class="my-6 flex items-center gap-4">
+
+        <div class="h-px flex-1 bg-slate-200"></div>
+
+        <span class="text-xs font-medium uppercase tracking-wider text-slate-400">
+          Or
+        </span>
+
+        <div class="h-px flex-1 bg-slate-200"></div>
+
+      </div>
+
+
+      <!-- Signup -->
+      <p class="text-center text-sm text-slate-500">
+
+        Don't have an account?
+
+        <a
+          routerLink="/signup"
+          class="font-semibold text-blue-600 transition hover:text-blue-700">
+          Create account
+        </a>
+
+      </p>
+
+    </div>
+
+
+    <!-- Footer -->
+    <p class="mt-6 text-center text-xs text-slate-400">
+      © 2026 Your Application. All rights reserved.
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- <div class="parent">
+    <div class="container">
+ 
+        <div class="login-box">
+            <h2>Login</h2>
+          
+         <form action="#" #loginForm="ngForm">
+
+           <app-message [message]="message" [type]="messageType">
+   
+  </app-message>
+
+  <div class="input-box">
+
+    <input
+      type="email"
+      required
+      name="email"
+      id="email"
+      [(ngModel)]="loginObj.email"
+      #email="ngModel"
+      minlength="5"
+      maxlength="100"
+      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    >
+
+    <label>Email</label>
+
+    @if (email.invalid && (email.touched || email.dirty)) {
+
+      @if (email.errors?.['required']) {
+        <small class="text-red-500">
+          Email is required.
+        </small>
+      }
+
+      @else if (email.errors?.['pattern']) {
+        <small class="text-red-500">
+          Please enter a valid email address.
+        </small>
+      }
+
+      @else if (email.errors?.['minlength']) {
+        <small class="text-red-500">
+          Email must be at least 5 characters.
+        </small>
+      }
+
+      @else if (email.errors?.['maxlength']) {
+        <small class="text-red-500">
+          Email cannot exceed 100 characters.
+        </small>
+      }
+
+    }
+
+  </div>
+
+
+  <div class="input-box">
+
+    <input
+      type="password"
+      required
+      name="password"
+      id="password"
+      [(ngModel)]="loginObj.password"
+      #password="ngModel"
+      minlength="6"
+      maxlength="50"
+    >
+
+    <label>Password</label>
+
+    @if (password.invalid && (password.touched || password.dirty)) {
+
+      @if (password.errors?.['required']) {
+        <small class="text-red-500">
+          Password is required.
+        </small>
+      }
+
+      @else if (password.errors?.['minlength']) {
+        <small class="text-red-500">
+          Password must be at least 6 characters.
+        </small>
+      }
+
+      @else if (password.errors?.['maxlength']) {
+        <small class="text-red-500">
+          Password cannot exceed 50 characters.
+        </small>
+      }
+
+    }
+
+  </div>
+
+
+  <div class="forgot-pass">
+    <a routerLink="/forgot-password">
+      Forgot your password?
+    </a>
+  </div>
+
+
+  <button
+    type="button"
+    (click)="login()"
+    class="btn"
+    [disabled]="loginForm.invalid"
+  >
+    Login
+  </button>
+
+
+  <div class="signup-link">
+    <a routerLink="/signup">
+      Signup
+    </a>
+  </div>
+
+</form>
+          </div>
+        
+        
+        <span style="--i:0"></span>
+        <span style="--i:1"></span>
+        <span style="--i:2"></span>
+        <span style="--i:3"></span>
+        <span style="--i:4"></span>
+        <span style="--i:5"></span>
+        <span style="--i:6"></span>
+        <span style="--i:7"></span>
+        <span style="--i:8"></span>
+        <span style="--i:9"></span>
+        <span style="--i:10"></span>
+        <span style="--i:11"></span>
+        <span style="--i:12"></span>
+        <span style="--i:13"></span>
+        <span style="--i:14"></span>
+        <span style="--i:15"></span>
+        <span style="--i:16"></span>
+        <span style="--i:17"></span>
+        <span style="--i:18"></span>
+        <span style="--i:19"></span>
+        <span style="--i:20"></span>
+        <span style="--i:21"></span>
+        <span style="--i:22"></span>
+        <span style="--i:23"></span>
+        <span style="--i:24"></span>
+        <span style="--i:25"></span>
+        <span style="--i:26"></span>
+        <span style="--i:27"></span>
+        <span style="--i:28"></span>
+        <span style="--i:29"></span>
+        <span style="--i:30"></span>
+        <span style="--i:31"></span>
+        <span style="--i:32"></span>
+        <span style="--i:33"></span>
+        <span style="--i:34"></span>
+        <span style="--i:35"></span>
+        <span style="--i:36"></span>
+        <span style="--i:37"></span>
+        <span style="--i:38"></span>
+        <span style="--i:39"></span>
+        <span style="--i:40"></span>
+        <span style="--i:41"></span>
+        <span style="--i:42"></span>
+        <span style="--i:43"></span>
+        <span style="--i:44"></span>
+        <span style="--i:45"></span>
+        <span style="--i:46"></span>
+        <span style="--i:47"></span>
+        <span style="--i:48"></span>
+        <span style="--i:49"></span>
+    </div>
+</div> -->
+
+
+
+
