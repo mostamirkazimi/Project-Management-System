@@ -9,6 +9,7 @@ import {
   TeamMember,
   AddTeamMemberRequest,
 } from '../../model/team/team.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +17,7 @@ import {
 export class TeamService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl =
-    'http://localhost:3000/team';
+  private readonly apiUrl = `${environment.apiUrl}/team`;
 
   getAll(): Observable<Team[]> {
     return this.http.get<Team[]>(

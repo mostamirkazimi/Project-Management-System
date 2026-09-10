@@ -41,7 +41,7 @@
         @if (blog.image) {
           <div class="w-full">
             <img
-              [src]="'http://localhost:3000' + blog.image"
+              [src]="uploadUrl + blog.image"
               [alt]="blog.title"
               class="h-64 w-full object-cover sm:h-80 lg:h-96"
             />

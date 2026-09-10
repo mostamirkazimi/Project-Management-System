@@ -13,6 +13,7 @@ import {
   Signup,
   VerifyOtp
 } from '../../model/auth/auth.moddel';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +22,7 @@ export class AuhtService {
 
   constructor(private readonly http: HttpClient) {}
 
-  apiUrl: string = 'http://localhost:3000/auth/';
-
+  private apiUrl = `${environment.apiUrl}/auth/`;
   // =========================================================
   // Login
   // =========================================================

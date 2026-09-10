@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { Router, RouterLink } from "@angular/router";
 import { UserService } from "../../../services/users/user.service";
 import { isPlatformBrowser } from "@angular/common";
+import { environment } from "../../../../environments/environment";
 
 
 @Component({
@@ -102,8 +103,7 @@ export class EditProfileComponent implements OnInit {
 
           if (user.profileImage) {
 
-            this.profileImage =
-              'http://localhost:3000' + user.profileImage;
+            this.profileImage = environment.uploadUrl + user.profileImage;
 
           } else {
 

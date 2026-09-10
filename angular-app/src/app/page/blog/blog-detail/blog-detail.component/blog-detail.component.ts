@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { BlogService } from '../../../../services/blog/blog.service';
 import { Blog } from '../../../../model/blog/blog.model';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Blog } from '../../../../model/blog/blog.model';
 export class BlogDetailComponent implements OnInit {
   private readonly blogService = inject(BlogService);
   private readonly route = inject(ActivatedRoute);
-
+readonly uploadUrl = environment.uploadUrl;
   blog: Blog | null = null;
 
   loading = false;

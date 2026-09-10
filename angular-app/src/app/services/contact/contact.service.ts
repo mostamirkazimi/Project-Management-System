@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface ContactRequest {
   name: string;
@@ -20,7 +21,7 @@ export interface ContactResponse {
 export class ContactService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://localhost:3000/contact';
+  private readonly apiUrl = `${environment.apiUrl}/contact`;
 
   sendMessage(data: ContactRequest): Observable<ContactResponse> {
     return this.http.post<ContactResponse>(

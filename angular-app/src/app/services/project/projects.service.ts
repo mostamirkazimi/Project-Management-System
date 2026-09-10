@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateProjectRequest, Project, UpdateProjectRequest } from '../../model/project/project.model';
+import { environment } from '../../../environments/environment';
 
 
 
@@ -11,7 +12,8 @@ import { CreateProjectRequest, Project, UpdateProjectRequest } from '../../model
 export class ProjectsService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://localhost:3000/projects';
+  //private readonly apiUrl = 'http://localhost:3000/projects';
+  private readonly apiUrl = `${environment.apiUrl}/projects`;
 
   // =========================
   // GET ALL PROJECTS

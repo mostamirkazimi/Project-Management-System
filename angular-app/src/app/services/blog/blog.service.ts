@@ -7,6 +7,7 @@ import {
   CreateBlogRequest,
   UpdateBlogRequest,
 } from '../../model/blog/blog.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,7 @@ export class BlogService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl =
-    'http://localhost:3000/blog';
+  private readonly apiUrl = `${environment.apiUrl}/blog`;
 
 
   // =========================
